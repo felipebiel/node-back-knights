@@ -53,6 +53,21 @@ module.exports = app => {
             .catch(() => res.status(500).send('Guerreiro não encontrado'))
     }
 
+    const partialUpdate = async (req, res) => {
+        const knight = {...req.body}
+        try {
+            existsOrError(knight.nickname, 'Apelido não informado')
+        } catch (msg) {
+            return res.status(400).send(msg)
+        }
+
+        Knight.findByIdAndUpdate(req.params.id, knight, {})
+            .then(() => {
+                res.status(201).send('Guerreiro alterado')
+            })
+            .catch(() => res.status(500).send('Erro ao apagar'))
+    }
+
     const save = (req, res) => {
         const knight = {...req.body}
         try {
@@ -69,5 +84,5 @@ module.exports = app => {
             .catch(error => res.status(500).send(error))
     }
 
-    return { Knight, get, save, getById, remove }
+    return { Knight, get, save, getById, remove, partialUpdate }
 }
