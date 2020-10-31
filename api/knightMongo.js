@@ -40,6 +40,7 @@ module.exports = app => {
             .then(knight => { 
                 res.json(knight) 
             })
+            .catch(() => res.status(500).send('Guerreiro não encontrado'))
     }
 
     const save = (req, res) => {
