@@ -10,6 +10,7 @@ app.mongodb = mongodb
 
 consign()
     .then('./config/middlewares.js')
+    .then('./api/validator.js')
     .then('./api')
     .then('./config/routes.js')
     .into(app)
