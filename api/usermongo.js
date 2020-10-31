@@ -1,6 +1,6 @@
 module.exports = app => {
 
-    const User = app.mongodb.model('User', {
+    const Knight = app.mongodb.model('Knight', {
         name: String,
         nickname: String,
         birthday: String,
@@ -25,7 +25,7 @@ module.exports = app => {
     })
 
     const get = (req, res) => {
-        User.find({}, {}, {})
+        Knight.find({}, {}, {})
             .then(users => { 
                 res.json(users) 
                 console.log(users)
@@ -36,5 +36,5 @@ module.exports = app => {
         res.json(req.body)
     }
 
-    return { User, get, save }
+    return { Knight, get, save }
 }
