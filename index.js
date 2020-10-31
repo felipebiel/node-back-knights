@@ -1,12 +1,12 @@
 const app = require('express')();
 const consign = require('consign')
 const db = require('./config/db')
-const mongoose = require('mongoose')
+const mongodb = require('mongoose')
 
-require('./config/mongoose')
+require('./config/mongodb')
 
 app.db = db
-app.mongodb = mongoose
+app.mongodb = mongodb
 
 consign()
     .then('./config/middlewares.js')
