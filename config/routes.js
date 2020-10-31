@@ -9,4 +9,5 @@ module.exports = app => {
         
     app.route('/knights/:id')
         .get(app.api.knightMongo.getById)
+        .delete(app.api.knightMongo.remove)
 }

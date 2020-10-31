@@ -1,6 +1,6 @@
 module.exports = app => {
 
-    const { existsOrError } = app.api.validator
+    const { existsOrError, notExistsOrError } = app.api.validator
 
     const Knight = app.mongodb.model('Knight', {
         name: String,
@@ -36,9 +36,19 @@ module.exports = app => {
     }
 
     const getById = (req, res) => {
-        Knight.findOne({ _id: req.params.id })
+        Knight.findById(req.params.id)
             .then(knight => { 
                 res.json(knight) 
+            })
+            .catch(() => res.status(500).send('Guerreiro não encontrado'))
+    }
+
+    const remove = async (req, res) => {
+        Knight.findById(req.params.id)
+            .then(knight => { 
+                Knight.deleteOne({ _id: knight._id })
+                    .then(() => res.status(201).send('Guerreiro apagado'))
+                    .catch(() => res.status(500).send('Erro ao apagar'))
             })
             .catch(() => res.status(500).send('Guerreiro não encontrado'))
     }
@@ -59,5 +69,5 @@ module.exports = app => {
             .catch(error => res.status(500).send(error))
     }
 
-    return { Knight, get, save, getById }
+    return { Knight, get, save, getById, remove }
 }
