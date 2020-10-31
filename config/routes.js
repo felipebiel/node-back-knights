@@ -5,4 +5,5 @@ module.exports = app => {
     
     app.route('/knights')
         .get(app.api.usermongo.get)
+        .post(app.api.usermongo.save)
 }
