@@ -27,10 +27,11 @@ module.exports = app => {
     })
 
     const get = (req, res) => {
-        Knight.find({}, {}, {})
+        const filter = req.query.filter || {}
+        //saber a lógica para ser um "heroi"
+        Knight.find(filter, {}, {})
             .then(users => { 
                 res.json(users) 
-                console.log(users)
             })
     }
 
