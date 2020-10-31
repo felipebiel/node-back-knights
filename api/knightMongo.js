@@ -35,6 +35,13 @@ module.exports = app => {
             })
     }
 
+    const getById = (req, res) => {
+        Knight.findOne({ _id: req.params.id })
+            .then(knight => { 
+                res.json(knight) 
+            })
+    }
+
     const save = (req, res) => {
         const knight = {...req.body}
         try {
@@ -51,5 +58,5 @@ module.exports = app => {
             .catch(error => res.status(500).send(error))
     }
 
-    return { Knight, get, save }
+    return { Knight, get, save, getById }
 }

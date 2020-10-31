@@ -6,4 +6,7 @@ module.exports = app => {
     app.route('/knights')
         .get(app.api.knightMongo.get)
         .post(app.api.knightMongo.save)
+        
+    app.route('/knights/:id')
+        .get(app.api.knightMongo.getById)
 }
