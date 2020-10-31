@@ -32,5 +32,9 @@ module.exports = app => {
             })
     }
 
-    return { User, get }
+    const save = (req, res) => {
+        res.json(req.body)
+    }
+
+    return { User, get, save }
 }
