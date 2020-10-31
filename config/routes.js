@@ -4,6 +4,6 @@ module.exports = app => {
         .get(app.api.user.getUsers)
     
     app.route('/knights')
-        .get(app.api.usermongo.get)
-        .post(app.api.usermongo.save)
+        .get(app.api.knightMongo.get)
+        .post(app.api.knightMongo.save)
 }
