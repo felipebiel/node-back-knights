@@ -1,5 +1,7 @@
 module.exports = app => {
 
+    const { existsOrError } = app.api.validator
+
     const Knight = app.mongodb.model('Knight', {
         name: String,
         nickname: String,
@@ -33,7 +35,19 @@ module.exports = app => {
     }
 
     const save = (req, res) => {
-        res.json(req.body)
+        const knight = {...req.body}
+        try {
+            existsOrError(knight.name, 'Nome não informado')
+            existsOrError(knight.nickname, 'Apelido não informado')
+            existsOrError(knight.birthday, 'Idade não informada')
+        } catch (msg) {
+            return res.status(400).send(msg)
+        }
+
+        const newKnight = new Knight(knight)
+        newKnight.save()
+            .then(resp => res.json(resp))
+            .catch(error => res.status(500).send(error))
     }
 
     return { Knight, get, save }
