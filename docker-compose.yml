@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  web:
+    image: node_back:dev
+    build:
+        context: .
+        args:
+            release: dev
+    ports:
+    - "3000:3000"
+    depends_on:
+    - mongo
+  mongo:
+    image: mongo
+    ports: 
+    - "27017:27017"
+    volumes:
+        - data-volume:/data/db
+    
+volumes:
+    data-volume:
+
+networks:
+    default:
+        external:
+            name: node-mongo
