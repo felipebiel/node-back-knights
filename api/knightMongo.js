@@ -7,6 +7,7 @@ module.exports = app => {
         nickname: String,
         birthday: String,
         keyAttribute: String,
+        deletedAt: String,
         weapons: [
                 {
                     name: String,
@@ -44,13 +45,21 @@ module.exports = app => {
     }
 
     const remove = async (req, res) => {
-        Knight.findById(req.params.id)
-            .then(knight => { 
-                Knight.deleteOne({ _id: knight._id })
-                    .then(() => res.status(201).send('Guerreiro apagado'))
-                    .catch(() => res.status(500).send('Erro ao apagar'))
+        //USANDO O SOFTDELETE
+        Knight.findByIdAndUpdate(req.params.id, {deletedAt: new Date()}, {})
+            .then(() => {
+                res.status(201).send('Guerreiro apagado')
             })
-            .catch(() => res.status(500).send('Guerreiro não encontrado'))
+            .catch(() => res.status(500).send('Erro ao apagar'))
+
+        // DELETANDO DE FATO
+        // Knight.findById(req.params.id)
+        //     .then(knight => { 
+        //         Knight.deleteOne({ _id: knight._id })
+        //             .then(() => res.status(201).send('Guerreiro apagado'))
+        //             .catch(() => res.status(500).send('Erro ao apagar'))
+        //     })
+        //     .catch(() => res.status(500).send('Guerreiro não encontrado'))
     }
 
     const partialUpdate = async (req, res) => {
@@ -78,7 +87,7 @@ module.exports = app => {
             return res.status(400).send(msg)
         }
 
-        const newKnight = new Knight(knight)
+        const newKnight = new Knight({...knight, deletedAt: ""})
         newKnight.save()
             .then(resp => res.json(resp))
             .catch(error => res.status(500).send(error))
