@@ -28,8 +28,7 @@ module.exports = app => {
     })
 
     const get = (req, res) => {
-        const filter = req.query.filter || {}
-        //saber a lógica para ser um "heroi"
+        const filter = req.query.filter ? { deletedAt: {$ne: ""} } : { deletedAt: "" }
         Knight.find(filter, {}, {})
             .then(users => { 
                 res.json(users) 
